@@ -1,0 +1,42 @@
+// GEMMA 3 - A PARTIR DE 770M
+
+package org.example;
+
+import java.util.Scanner;
+import io.github.ollama4j.Ollama;
+import io.github.ollama4j.models.chat.OllamaChatMessageRole;
+import io.github.ollama4j.models.chat.OllamaChatRequest;
+import io.github.ollama4j.models.chat.OllamaChatResult;
+
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+
+        // We're just using our quick-setup utility here to instantiate Ollama. Use the following
+        // to set it up with your Ollama configuration.
+        Ollama ollama = new Ollama("http://127.0.0.1:11434/");
+        String model = "hf.co/tardellirs/aac-board-generator-770m-ptbr-GGUF:Q4_K_M";
+        ollama.pullModel(model);
+        ollama.setRequestTimeoutSeconds(300);
+        OllamaChatRequest builder = OllamaChatRequest.builder().withModel(model);
+
+        String tema;
+        Scanner s = new Scanner(System.in);
+        System.out.println("Digite o tema:");
+        tema = s.nextLine();
+
+        // create first user question
+        OllamaChatRequest requestModel =
+                builder.withMessage(OllamaChatMessageRole.USER,  "Voce é um agente de auxilio de comunicacao para pessoas com dificulade de comunicacao a expressar seus pensamentos, necessidade e sentimentos, seu objetivo é montar  pranchas de CAA (Comunicação Aumentativa e Alternativa) para este auxilio em formato de pictogramas em portugues brasileiro). " +
+                        " Será indicado o tema, baseado nele liste 12 itens concretos e relevantes do tema: Indique indique o tipo, uma palavra e um sinonimo de cada tipo a seguir: Verbos, Substantivos, Adjetivos, Estrategias, Lugares, Pronomes; " +
+                                " liste na mesma linha, no seguinte formato:" +
+                                " tipo | palavra | sinonimo;" +
+                                "não repita palavras." +
+                        "apresente como resposta somente a lista.")
+                                .build();
+
+        // start conversation with model
+        OllamaChatResult chatResult = ollama.chat(requestModel, null);
+
+        System.out.println(
+                "Resposta:" + chatResult.getResponseModel().getMessage().getResponse());
