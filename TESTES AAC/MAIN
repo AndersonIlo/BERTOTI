@@ -28,20 +28,22 @@ public class Main {
 
         // create first user question
         OllamaChatRequest requestModel =
-                builder.withMessage(OllamaChatMessageRole.USER, "Você monta pranchas de CAA (pictogramas, pt-BR). " +
-                                "Para o tema, liste ~12 itens concretos e relevantes do tema:" + tema +
-                                " um por linha, no formato: tipo | palavra | sinônimo;" +
-                                "Indique 2 palavras de cada tipo: Verbos, Substantivos, Adjetivos, Estratégias, Lugares, Pronomes;" +
-                                "Exemplos dos tipos de palavras:" +
-                                "Verbos: ações como querer, ir, comer;" +
-                                "Substantivos: objetos como água, brinquedo, amor;" +
-                                "Adjetivos: características como bom, grande, feio;" +
-                                "Estratégias / Fórmulas sociais: expressões como olá, obrigado, por favor;" +
-                                "Lugares: posições e recintos como escola, hospital, casa;" +
-                                "Pessoas / Pronomes: como eu, você, mãe;" +
-                                "não repita palavras." +
-                                "Só a lista.")
-                        .build();
+                builder.withMessage(OllamaChatMessageRole.USER, "Você monta pranchas de CAA (Comunicação Aumentativa e Alternativa) com pictogramas, em português brasileiro.\n" +
+                                "Tema: " + tema + "\n\n" +
+                                "Liste 12 itens concretos e diretamente relacionados ao tema, sendo exatamente 2 de cada tipo, nesta ordem: " +
+                                "Verbos, Substantivos, Adjetivos, Estratégias, Lugares, Pronomes.\n" +
+                                "Formato de cada linha: tipo | palavra | sinônimo\n\n" +
+                                "Exemplos de cada tipo (não use estas palavras, é só referência):\n" +
+                                "Verbos: ações, como querer, ir, comer\n" +
+                                "Substantivos: objetos, como água, brinquedo, bola\n" +
+                                "Adjetivos: características, como bom, grande, feio\n" +
+                                "Estratégias: fórmulas sociais, como olá, obrigado, por favor\n" +
+                                "Lugares: posições e recintos, como escola, hospital, casa\n" +
+                                "Pronomes: pessoas, como eu, você, ele\n\n" +
+                                "Regras:\n" +
+                                "- Não repita palavras.\n" +
+                                "- Responda apenas com as 12 linhas da lista, sem título, numeração, comentário ou texto extra."
+                        ).build();
 
         // start conversation with model
         OllamaChatResult chatResult = ollama.chat(requestModel, null);
